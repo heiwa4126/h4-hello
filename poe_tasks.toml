@@ -1,0 +1,43 @@
+# envfile = ".env"
+
+[executor]
+type = "uv"
+
+[env]
+RUN_BASE = "src/h4_hello"
+TRIVY_IGNORE = "--skip-dirs ./tmp,./xml"
+
+[tasks]
+main = "${RUN_BASE}/main.py"
+cli = "h4-hello"
+
+# ======== tests
+test = "pytest -v --tb=short src"
+tests = ["test"]
+
+# ======== utils
+format.shell = """
+ruff format &&
+# biome format --write . &&
+dprint fmt --config ~/dprint.json &&
+textlint --fix "**/*.md"
+"""
+
+check = "ruff check ./src"
+mypy = "mypy src"
+pyproject = "validate-pyproject pyproject.toml"
+
+update.shell = "uv lock -U && uv sync && uv cache prune"
+
+uvsync = "uv sync"
+requirements = "uv pip compile pyproject.toml --no-deps -o requirements.txt"
+sync = ["uvsync", "requirements"]
+
+trivy-config = "trivy config ."
+trivy-fs = "trivy fs ${TRIVY_IGNORE} ."
+trivy-check = ["trivy-config", "trivy-fs"]
+trivy = ["trivy-check"]
+trivy-license = "trivy fs ${TRIVY_IGNORE} --scanners license --severity HIGH,CRITICAL ."
+trivy-sbom = "trivy fs ${TRIVY_IGNORE} --scanners vuln --format cyclonedx --output sbom.cdx.json ."
+trivy-sbom-spdx = "trivy fs ${TRIVY_IGNORE} --scanners vuln --format spdx-json --output sbom.spdx.json ."
+sbom = ["requirements", "trivy-sbom", "trivy-sbom-spdx"]
