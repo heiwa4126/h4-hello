@@ -1,6 +1,6 @@
 [project]
 name = "h4-hello"
-version = "0.1.0"
+version = "0.1.1"
 description = "A simple hello world example"
 keywords = ["demo", "hello"]
 classifiers = [
@@ -16,6 +16,11 @@ authors = [
 requires-python = ">=3.12"
 
 dependencies = []
+
+[project.urls]
+Documentation = "https://github.com/heiwa4126/h4-hello#readme"
+Issues = "https://github.com/heiwa4126/h4-hello/issues"
+Source = "https://github.com/heiwa4126/h4-hello"
 
 [project.scripts]
 h4-hello = "h4_hello:main"

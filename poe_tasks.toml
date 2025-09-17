@@ -15,6 +15,11 @@ cli = "h4-hello"
 test = "pytest -v --tb=short src"
 tests = ["test"]
 
+# ======== lint
+check = "ruff check ./src"
+mypy = "mypy src"
+pyproject = "validate-pyproject pyproject.toml"
+
 # ======== utils
 format.shell = """
 ruff format &&
@@ -22,10 +27,6 @@ ruff format &&
 dprint fmt --config ~/dprint.json &&
 textlint --fix "**/*.md"
 """
-
-check = "ruff check ./src"
-mypy = "mypy src"
-pyproject = "validate-pyproject pyproject.toml"
 
 update.shell = "uv lock -U && uv sync && uv cache prune"
 
@@ -41,3 +42,10 @@ trivy-license = "trivy fs ${TRIVY_IGNORE} --scanners license --severity HIGH,CRI
 trivy-sbom = "trivy fs ${TRIVY_IGNORE} --scanners vuln --format cyclonedx --output sbom.cdx.json ."
 trivy-sbom-spdx = "trivy fs ${TRIVY_IGNORE} --scanners vuln --format spdx-json --output sbom.spdx.json ."
 sbom = ["requirements", "trivy-sbom", "trivy-sbom-spdx"]
+
+[tasks.testpypi]
+help = "Build and upload to Test PyPI"
+envfile = ".env"
+cmd = """uv publish \
+  --publish-url https://test.pypi.org/legacy/ \
+  --token $TEST_PYPI_TOKEN"""
