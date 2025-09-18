@@ -18,6 +18,8 @@
 		- [Repository name (=リポジトリ名)](#repository-name-リポジトリ名)
 		- [Workflow name(=ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
 		- [Environment (任意)](#environment-任意)
+		- [以上をまとめると](#以上をまとめると)
+- [`uv deploy` は PEP740 はまだ駄目 (2025-09)](#uv-deploy-は-pep740-はまだ駄目-2025-09)
 
 ## Installation
 
@@ -146,5 +148,19 @@ Owner = octo-org
 #### Environment (任意)
 
 GitHub Actions の Environment 名 (例:testpypi)。
-
 PyPI の UI では任意ですが、セキュリティと運用上の理由で利用が強く推奨されています。
+
+#### 以上をまとめると
+
+[publish-testpypi.yml](.github/workflows/publish-testpypi.yml) の場合は
+
+- Owner: heiwa4126
+- Repository name: h4-hello
+- Workflow name: publish-testpypi.yml
+- Environment: testpypi
+
+## `uv deploy` は PEP740 はまだ駄目 (2025-09)
+
+- [uv publish: create attestations · Issue #15618 · astral-sh/uv](https://github.com/astral-sh/uv/issues/15618)
+
+`pypa/gh-action-pypi-publish`を使う。
