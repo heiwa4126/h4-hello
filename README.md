@@ -9,8 +9,8 @@
 - [参考](#参考)
 	- [ビルド関連](#ビルド関連)
 	- [パブリッシュ関連](#パブリッシュ関連)
-- [testPyPI のトークン](#testpypi-のトークン)
-- [testPyPI へのデプロイ](#testpypi-へのデプロイ)
+- [testPyPI のトークン取得](#testpypi-のトークン取得)
+- [testPyPI への手動パブリッシュ](#testpypi-への手動パブリッシュ)
 
 ## Installation
 
@@ -28,8 +28,10 @@ pip install h4-hello
 
 ## これは何か
 
+練習プロジェクト
+
 0. uv でパッケージを作る(build backend も uv)
-1. testPyPI で公開する(手動)
+1. testPyPI で公開する(手動)。publish も `uv publish`で。twine を使わない
 2. GitHub Actions 経由で、testPyPI に公開する
    - その過程で suzuki-shunsuke/pinact, rhysd/actionlint, nektos/act などを使う (あと aqua)
 3. Sigstore 署名をつけて testPyPI に公開する
@@ -46,7 +48,7 @@ pip install h4-hello
 
 - [Publishing your package](https://docs.astral.sh/uv/guides/package/#publishing-your-package)
 
-## testPyPI のトークン
+## testPyPI のトークン取得
 
 0. TestPyPI にアカウント作成  
    https://test.pypi.org で PyPI とは別のアカウントを作成します
@@ -58,13 +60,29 @@ pip install h4-hello
    - **表示されたトークンは一度しか表示されないので必ずコピーして保存**
      　ここでは .env に保存
 
-## testPyPI へのデプロイ
+## testPyPI への手動パブリッシュ
 
 例:
 
 ```sh
-uv version --bump patch
+uv version --bump patch  # このへんはアレンジ
 git commit -am 'v9.9.9'  # 上で表示されたやつ
+git tag -a 'v9.9.9' -m 'v9.9.9'
+rm dist/* -f
 uv build
+poe testpypi
+```
 
+なんかめんどくさいね。自動化する。
+
+パブリッシュできたら別環境でテストする。
+
+```sh
+mkdir tmp1 && cd $!
+uv init --python 3.12
+uv sync
+uv add --index-url https://test.pypi.org/simple/ h4-hello
+. .venv/bin/activate
+h4-hello
+# -> hello!
 ```
