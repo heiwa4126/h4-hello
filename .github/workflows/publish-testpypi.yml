@@ -37,6 +37,13 @@ jobs:
       - name: Test source distribution installation
         run: uv run --isolated --no-project --with dist/*.tar.gz src/h4_hello/main.py
 
+      # - name: Publish to TestPyPI
+      #   run: uv publish --publish-url https://test.pypi.org/legacy/ --trusted-publishing always
+      # Uses OIDC trusted publishing, no API tokens required
+
       - name: Publish to TestPyPI
-        run: uv publish --publish-url https://test.pypi.org/legacy/ --trusted-publishing always
-        # Uses OIDC trusted publishing, no API tokens required
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          # packages-dir: dist
+          # attestations: true  # PEP740 attestations (enabled by default)
