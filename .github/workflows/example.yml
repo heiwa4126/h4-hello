@@ -6,16 +6,14 @@ on:
       # Publish on any tag starting with a `v`, e.g., v0.1.0
       - example*
 
-permissions:
-  id-token: write # OIDCトークンを使うために必要
-  contents: read
-
 jobs:
   uv-example:
     # see: https://docs.astral.sh/uv/guides/integration/github/#publishing-to-pypi
     name: python
     runs-on: ubuntu-latest
-
+    permissions:
+      id-token: write # OIDCトークンを使うために必要
+      contents: read
     environment: testpypi
 
     steps:
