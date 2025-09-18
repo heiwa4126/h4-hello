@@ -11,6 +11,13 @@
 	- [パブリッシュ関連](#パブリッシュ関連)
 - [testPyPI のトークン取得](#testpypi-のトークン取得)
 - [testPyPI への手動パブリッシュ](#testpypi-への手動パブリッシュ)
+- [GitHub Actions でビルドとパブリッシュ (uv 版)](#github-actions-でビルドとパブリッシュ-uv-版)
+- [PyPI(testPyPI)で "Trusted Publisher Management" のページまで行く方法](#pypitestpypiで-trusted-publisher-management-のページまで行く方法)
+	- [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
+		- [Owner (=リポジトリの所有者)](#owner-リポジトリの所有者)
+		- [Repository name (=リポジトリ名)](#repository-name-リポジトリ名)
+		- [Workflow name(=ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
+		- [Environment (任意)](#environment-任意)
 
 ## Installation
 
@@ -58,7 +65,7 @@ pip install h4-hello
    - TestPyPI の右上メニュー → Account Settings → API tokens → 「Add API token」
    - トークン名を入力し、Create token をクリック
    - **表示されたトークンは一度しか表示されないので必ずコピーして保存**
-     　ここでは .env に保存
+     ここでは .env に保存
 
 ## testPyPI への手動パブリッシュ
 
@@ -86,3 +93,60 @@ uv add --index-url https://test.pypi.org/simple/ h4-hello
 h4-hello
 # -> hello!
 ```
+
+## GitHub Actions でビルドとパブリッシュ (uv 版)
+
+- [Publishing to PyPI - Using uv in GitHub Actions | uv](https://docs.astral.sh/uv/guides/integration/github/#publishing-to-pypi)
+- [Commands | uv build](https://docs.astral.sh/uv/reference/cli/#uv-build)
+- [Commands | uv publish](https://docs.astral.sh/uv/reference/cli/#uv-publish)
+- [Adding a Trusted Publisher to an Existing PyPI Project - PyPI Docs](https://docs.pypi.org/trusted-publishers/adding-a-publisher/)
+- [Publishing with a Trusted Publisher - PyPI Docs](https://docs.pypi.org/trusted-publishers/using-a-publisher/)
+- [Trusted publishing support for GitHub Actions + TestPyPI via \`uv publish\` · Issue #8584 · astral-sh/uv](https://github.com/astral-sh/uv/issues/8584)
+
+## PyPI(testPyPI)で "Trusted Publisher Management" のページまで行く方法
+
+(2025-09)
+
+1. **PyPI(testPyPI)にログイン**  
+   <https://pypi.org> (<https://test.pypi.org>) にアクセスし、アカウントでログインします
+2. **対象プロジェクトを選択**  
+   右上のメニューから「Your projects (自分のプロジェクト)」をクリックし、設定したいプロジェクトを選びます
+3. **「Manage」ページへ移動**  
+   プロジェクト一覧で対象プロジェクトの 「Manage (管理)」 ボタンをクリック
+4. **「Publishing」メニューを開く**  
+   左サイドバーの 「Publishing」 をクリックします
+5. **"Trusted Publisher Management"に着いたので Trusted Publisher を追加**  
+   GitHub タブを選択すると、必要な入力フィールドが表示されます
+
+### GitHub Actions 用の各フィールド
+
+参照: [warehouse/docs/user/trusted-publishers/adding-a-publisher.md at main · pypi/warehouse · GitHub](https://github.com/pypi/warehouse/blob/main/docs/user/trusted-publishers/adding-a-publisher.md)
+
+#### Owner (=リポジトリの所有者)
+
+**意味:** GitHub 上の 組織またはユーザー名(リポジトリの最初の要素)。
+
+例: `https://github.com/octo-org/sampleproject` の場合、
+Owner = octo-org
+
+**注意:**
+
+- チーム名や表示名ではなく、オーナーのハンドル (org/ユーザー名)を入力します。
+- フォークではなく本家の所有者を指定してください (PyPI が信頼するのは指定オーナー配下のワークフローです)
+- リポジトリを別オーナーへ Transfer した場合は、この Owner も更新が必要です
+
+#### Repository name (=リポジトリ名)
+
+**例:** `octo-org/sampleproject` の `sampleproject` に相当
+
+#### Workflow name(=ワークフローファイルのパス)
+
+**例:** `.github/workflows/release.yml` のように、拡張子まで含めたファイルパスを指定。
+
+#### Environment (任意)
+
+GitHub Actions の Environment 名 (例:pypi)。
+
+PyPI の UI では任意ですが、セキュリティと運用上の理由で利用が強く推奨されています。
+
+これ難しい
