@@ -7,17 +7,17 @@
 - [---ここまではテンプレ、以下メモ---](#---ここまではテンプレ以下メモ---)
 - [これは何か](#これは何か)
 - [参考](#参考)
-  - [ビルド関連](#ビルド関連)
-  - [パブリッシュ関連](#パブリッシュ関連)
+	- [ビルド関連](#ビルド関連)
+	- [パブリッシュ関連](#パブリッシュ関連)
 - [testPyPI のトークン取得](#testpypi-のトークン取得)
 - [testPyPI への手動パブリッシュ](#testpypi-への手動パブリッシュ)
 - [GitHub Actions でビルドとパブリッシュ (uv 版)](#github-actions-でビルドとパブリッシュ-uv-版)
 - [PyPI(testPyPI)で "Trusted Publisher Management" のページまで行く方法](#pypitestpypiで-trusted-publisher-management-のページまで行く方法)
-  - [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
-    - [Owner (=リポジトリの所有者)](#owner-リポジトリの所有者)
-    - [Repository name (=リポジトリ名)](#repository-name-リポジトリ名)
-    - [Workflow name(=ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
-    - [Environment (任意)](#environment-任意)
+	- [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
+		- [Owner (=リポジトリの所有者)](#owner-リポジトリの所有者)
+		- [Repository name (=リポジトリ名)](#repository-name-リポジトリ名)
+		- [Workflow name(=ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
+		- [Environment (任意)](#environment-任意)
 
 ## Installation
 
@@ -141,12 +141,10 @@ Owner = octo-org
 
 #### Workflow name(=ワークフローファイルのパス)
 
-**例:** `.github/workflows/release.yml` のように、拡張子まで含めたファイルパスを指定。
+**例:** `.github/workflows/example.yml` だったら `example.yml` を指定。
 
 #### Environment (任意)
 
-GitHub Actions の Environment 名 (例:pypi)。
+GitHub Actions の Environment 名 (例:testpypi)。
 
 PyPI の UI では任意ですが、セキュリティと運用上の理由で利用が強く推奨されています。
-
-これ難しい
