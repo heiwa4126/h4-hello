@@ -7,17 +7,17 @@
 - [---ここまではテンプレ、以下メモ---](#---ここまではテンプレ以下メモ---)
 - [これは何か](#これは何か)
 - [参考](#参考)
-	- [ビルド関連](#ビルド関連)
-	- [パブリッシュ関連](#パブリッシュ関連)
+  - [ビルド関連](#ビルド関連)
+  - [パブリッシュ関連](#パブリッシュ関連)
 - [testPyPI のトークン取得](#testpypi-のトークン取得)
 - [testPyPI への手動パブリッシュ](#testpypi-への手動パブリッシュ)
 - [GitHub Actions でビルドとパブリッシュ (uv 版)](#github-actions-でビルドとパブリッシュ-uv-版)
 - [PyPI(testPyPI)で "Trusted Publisher Management" のページまで行く方法](#pypitestpypiで-trusted-publisher-management-のページまで行く方法)
-	- [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
-		- [Owner (=リポジトリの所有者)](#owner-リポジトリの所有者)
-		- [Repository name (=リポジトリ名)](#repository-name-リポジトリ名)
-		- [Workflow name(=ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
-		- [Environment (任意)](#environment-任意)
+  - [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
+    - [Owner (=リポジトリの所有者)](#owner-リポジトリの所有者)
+    - [Repository name (=リポジトリ名)](#repository-name-リポジトリ名)
+    - [Workflow name(=ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
+    - [Environment (任意)](#environment-任意)
 
 ## Installation
 
@@ -57,12 +57,12 @@ pip install h4-hello
 
 ## testPyPI のトークン取得
 
-0. TestPyPI にアカウント作成  
+0. TestPyPI にアカウント作成\
    https://test.pypi.org で PyPI とは別のアカウントを作成します
-1. 2 段階認証を有効化  
+1. 2 段階認証を有効化\
    アカウント設定から 2FA を設定(Google Authenticator など)
 2. API トークンを発行
-   - TestPyPI の右上メニュー → Account Settings → API tokens → 「Add API token」
+   - TestPyPI の右上メニュー → Account Settings → API tokens →「Add API token」
    - トークン名を入力し、Create token をクリック
    - **表示されたトークンは一度しか表示されないので必ずコピーして保存**
      ここでは .env に保存
@@ -107,15 +107,15 @@ h4-hello
 
 (2025-09)
 
-1. **PyPI(testPyPI)にログイン**  
+1. **PyPI(testPyPI)にログイン**\
    <https://pypi.org> (<https://test.pypi.org>) にアクセスし、アカウントでログインします
-2. **対象プロジェクトを選択**  
+2. **対象プロジェクトを選択**\
    右上のメニューから「Your projects (自分のプロジェクト)」をクリックし、設定したいプロジェクトを選びます
-3. **「Manage」ページへ移動**  
-   プロジェクト一覧で対象プロジェクトの 「Manage (管理)」 ボタンをクリック
-4. **「Publishing」メニューを開く**  
-   左サイドバーの 「Publishing」 をクリックします
-5. **"Trusted Publisher Management"に着いたので Trusted Publisher を追加**  
+3. **「Manage」ページへ移動**\
+   プロジェクト一覧で対象プロジェクトの「Manage (管理)」ボタンをクリック
+4. **「Publishing」メニューを開く**\
+   左サイドバーの「Publishing」をクリックします
+5. **"Trusted Publisher Management"に着いたので Trusted Publisher を追加**\
    GitHub タブを選択すると、必要な入力フィールドが表示されます
 
 ### GitHub Actions 用の各フィールド
@@ -124,7 +124,7 @@ h4-hello
 
 #### Owner (=リポジトリの所有者)
 
-**意味:** GitHub 上の 組織またはユーザー名(リポジトリの最初の要素)。
+**意味:** GitHub 上の組織またはユーザー名(リポジトリの最初の要素)。
 
 例: `https://github.com/octo-org/sampleproject` の場合、
 Owner = octo-org
