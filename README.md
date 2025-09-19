@@ -163,4 +163,29 @@ PyPI の UI では任意ですが、セキュリティと運用上の理由で�
 
 - [uv publish: create attestations · Issue #15618 · astral-sh/uv](https://github.com/astral-sh/uv/issues/15618)
 
-`pypa/gh-action-pypi-publish`を使う。
+[pypa/gh-action-pypi-publish](https://github.com/pypa/gh-action-pypi-publish)
+に入れ替える。
+
+...あっさりできた。GitHub Actions のログがなんかえらいことに。
+Docker イメージ `ghcr.io/pypa/gh-action-pypi-publish:release-v1` で実行されるらしい。
+GitHub Container Registry (GHCR)
+これ [Package gh-action-pypi-publish](https://github.com/pypa/gh-action-pypi-publish/pkgs/container/gh-action-pypi-publish)
+
+比較
+
+前:
+
+- [h4-hello v0.1.3 · TestPyPI](https://test.pypi.org/project/h4-hello/0.1.3/) - Verified マークは過去のにも着くなあ..
+- [h4_hello-0.1.0-py3-none-any.whl · TestPyPI](https://test.pypi.org/project/h4-hello/0.1.0/#h4_hello-0.1.0-py3-none-any.whl)
+
+後:
+
+- [h4-hello v0.1.4 · TestPyPI](https://test.pypi.org/project/h4-hello/0.1.4/)
+- [h4_hello-0.1.4-py3-none-any.whl · TestPyPI](https://test.pypi.org/project/h4-hello/#h4_hello-0.1.4-py3-none-any.whl)
+
+どうやら "Verified details" の横のチェックマークは Sigstore 署名とは無関係に付くみたい。
+
+
+
+
+そのパッケージが Sigstore 署名されているかを確認するには、個別の tgz や whl のページに行って確認するしかない
