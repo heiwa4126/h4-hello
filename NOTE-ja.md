@@ -3,24 +3,24 @@
 **目次**
 
 - [これは何か](#これは何か)
-	- [手順](#手順)
+  - [手順](#手順)
 - [参考リンク](#参考リンク)
-	- [ビルド関連](#ビルド関連)
-	- [パブリッシュ関連](#パブリッシュ関連)
+  - [ビルド関連](#ビルド関連)
+  - [パブリッシュ関連](#パブリッシュ関連)
 - [ビルドとテスト](#ビルドとテスト)
 - [testPyPI のトークン取得](#testpypi-のトークン取得)
 - [testPyPI への手動パブリッシュ](#testpypi-への手動パブリッシュ)
 - [GitHub Actions でビルドとパブリッシュ (uv 版)](#github-actions-でビルドとパブリッシュ-uv-版)
 - [PyPI(testPyPI)で "Trusted Publisher Management" のページまで行く方法](#pypitestpypiで-trusted-publisher-management-のページまで行く方法)
-	- [既存のプロジェクトの場合](#既存のプロジェクトの場合)
-	- [新プロジェクトの場合](#新プロジェクトの場合)
-	- [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
-		- [(新プロジェクトの場合のみ) PyPI Project Name](#新プロジェクトの場合のみ-pypi-project-name)
-		- [Owner (=リポジトリの所有者)](#owner-リポジトリの所有者)
-		- [Repository name (=リポジトリ名)](#repository-name-リポジトリ名)
-		- [Workflow name(=ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
-		- [Environment (任意)](#environment-任意)
-		- [以上をまとめると](#以上をまとめると)
+  - [既存のプロジェクトの場合](#既存のプロジェクトの場合)
+  - [新プロジェクトの場合](#新プロジェクトの場合)
+  - [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
+    - [(新プロジェクトの場合のみ) PyPI Project Name](#新プロジェクトの場合のみ-pypi-project-name)
+    - [Owner (=リポジトリの所有者)](#owner-リポジトリの所有者)
+    - [Repository name (=リポジトリ名)](#repository-name-リポジトリ名)
+    - [Workflow name(=ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
+    - [Environment (任意)](#environment-任意)
+    - [以上をまとめると](#以上をまとめると)
 - [`uv deploy` は PEP740 はまだ駄目 (2025-09)](#uv-deploy-は-pep740-はまだ駄目-2025-09)
 
 ## これは何か
@@ -65,8 +65,6 @@ uv build
 # ./dist以下に .tar.gz と .whlができるので
 # 中身を確認して(`tar tzvf` と zipinfo)、余計なものがあったら
 # pyproject.toml の [tool.uv.build-backend] で調整
-
-
 ```
 
 ## testPyPI のトークン取得

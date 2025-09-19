@@ -40,5 +40,5 @@ print(hello())
 
 ## Note
 
-これがこのプロジェクトの本体。  
+これがこのプロジェクトの本体。\
 [GitHub レポジトリ](https://github.com/heiwa4126/h4-hello?tab=readme-ov-file#note) 上で見てね。[NOTE-ja.md](NOTE-ja.md)
