@@ -3,7 +3,7 @@ name: Build and Publish to TestPyPI
 on:
   push:
     tags:
-      # Publish on any tag starting with a `v`, e.g., v0.1.0
+      # Special tag for Publish to TestPyPI
       - ex*
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - name: Download built packages
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
         with:
           name: python-package-distributions
           path: dist/

@@ -183,6 +183,14 @@ PyPI の UI では任意ですが、セキュリティと運用上の理由で�
 - Workflow name: publish-testpypi.yml
 - Environment: testpypi
 
+[publish-pypi.yml](.github/workflows/publish-pypi.yml) の場合は (こっちは新規プロジェクト)
+
+- PyPI Project Name: h4-hello
+- Owner: heiwa4126
+- Repository name: h4-hello
+- Workflow name: publish-pypi.yml
+- Environment: pypi
+
 ## `uv deploy` は PEP740 はまだ駄目 (2025-09)
 
 - [uv publish: create attestations · Issue #15618 · astral-sh/uv](https://github.com/astral-sh/uv/issues/15618)

@@ -34,7 +34,7 @@ wheels = [
 
 [[package]]
 name = "h4-hello"
-version = "0.1.7"
+version = "0.1.8"
 source = { editable = "." }
 
 [package.dev-dependencies]
