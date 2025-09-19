@@ -1,5 +1,8 @@
 # h4-hello
 
+[![PyPI - Version](https://img.shields.io/pypi/v/h4-hello.svg)](https://pypi.org/project/h4-hello)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/h4-hello.svg)](https://pypi.org/project/h4-hello)
+
 **Table of Contents**
 
 - [Installation](#installation)
@@ -35,4 +38,5 @@ print(hello())
 
 ## Note
 
-これがこのプロジェクトの本体。 [NOTE-ja.md](NOTE-ja.md)
+これがこのプロジェクトの本体。  
+[GitHub レポジトリ](https://github.com/heiwa4126/h4-hello?tab=readme-ov-file#note) 上で見てね。[NOTE-ja.md](NOTE-ja.md)
