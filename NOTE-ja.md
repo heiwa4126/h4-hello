@@ -3,31 +3,31 @@
 **目次**
 
 - [これは何か](#これは何か)
-  - [手順](#手順)
+- [作った手順](#作った手順)
 - [参考リンク](#参考リンク)
-  - [ビルド関連](#ビルド関連)
-  - [パブリッシュ関連](#パブリッシュ関連)
+	- [ビルド関連](#ビルド関連)
+	- [パブリッシュ関連](#パブリッシュ関連)
 - [ビルドとテスト](#ビルドとテスト)
 - [testPyPI のトークン取得](#testpypi-のトークン取得)
-- [testPyPI への手動パブリッシュ](#testpypi-への手動パブリッシュ)
+- [TestPyPI への手動パブリッシュ](#testpypi-への手動パブリッシュ)
 - [GitHub Actions でビルドとパブリッシュ (uv 版)](#github-actions-でビルドとパブリッシュ-uv-版)
 - [PyPI(testPyPI)で "Trusted Publisher Management" のページまで行く方法](#pypitestpypiで-trusted-publisher-management-のページまで行く方法)
-  - [既存のプロジェクトの場合](#既存のプロジェクトの場合)
-  - [新プロジェクトの場合](#新プロジェクトの場合)
-  - [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
-    - [(新プロジェクトの場合のみ) PyPI Project Name](#新プロジェクトの場合のみ-pypi-project-name)
-    - [Owner (=リポジトリの所有者)](#owner-リポジトリの所有者)
-    - [Repository name (=リポジトリ名)](#repository-name-リポジトリ名)
-    - [Workflow name(=ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
-    - [Environment (任意)](#environment-任意)
-    - [以上をまとめると](#以上をまとめると)
+	- [既存のプロジェクトの場合](#既存のプロジェクトの場合)
+	- [新プロジェクトの場合](#新プロジェクトの場合)
+	- [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
+		- [PyPI Project Name (新プロジェクトの場合のみ存在する)](#pypi-project-name-新プロジェクトの場合のみ存在する)
+		- [Owner (リポジトリの所有者)](#owner-リポジトリの所有者)
+		- [Repository name (リポジトリ名)](#repository-name-リポジトリ名)
+		- [Workflow name(ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
+		- [Environment (任意)](#environment-任意)
+		- [以上をまとめると](#以上をまとめると)
 - [`uv deploy` は PEP740 はまだ駄目 (2025-09)](#uv-deploy-は-pep740-はまだ駄目-2025-09)
 
 ## これは何か
 
 uv で作った Python のプロジェクトを PEP740 の署名付きで PyPI に公開する練習プロジェクト。中身は "Hello!"を返す hello()関数だけ。
 
-### 手順
+## 作った手順
 
 1. uv でパッケージを作る (build backend も uv)
 1. TestPyPI で公開する(手動)。publish も `uv publish`で。twine は使わない
@@ -57,14 +57,18 @@ uv で作った Python のプロジェクトを PEP740 の署名付きで PyPI �
 ## ビルドとテスト
 
 ```sh
-poe format
 poe check
 poe mypy
+poe tests
 
 uv build
 # ./dist以下に .tar.gz と .whlができるので
 # 中身を確認して(`tar tzvf` と zipinfo)、余計なものがあったら
 # pyproject.toml の [tool.uv.build-backend] で調整
+
+# 「パッケージをimportできるか」程度の簡単なテスト
+uv run --isolated --no-project --with "dist/*.whl" src/h4_hello/main.py
+uv run --isolated --no-project --with "dist/*.tar.gz" src/h4_hello/main.py
 ```
 
 ## testPyPI のトークン取得
@@ -77,9 +81,13 @@ uv build
    - TestPyPI の右上メニュー → Account Settings → API tokens →「Add API token」
    - トークン名を入力し、Create token をクリック
    - **表示されたトークンは一度しか表示されないので必ずコピーして保存**
-     ここでは .env に保存
+     ここでは `.env` に保存
+     ```sh
+     cp .env.template .env
+     vim .env # コピペする
+     ```
 
-## testPyPI への手動パブリッシュ
+## TestPyPI への手動パブリッシュ
 
 例:
 
@@ -92,11 +100,12 @@ uv build
 poe testpypi
 ```
 
-なんかめんどくさいね。自動化する。
+TODO: なんかめんどくさいね。自動化する。
 
-パブリッシュできたら別環境でテストする。
+TestPyPI にパブリッシュできたら別環境でテストする。
 
 ```sh
+cd ~
 mkdir tmp1 && cd $!
 uv init --python 3.12
 uv sync
@@ -117,7 +126,7 @@ h4-hello
 
 ## PyPI(testPyPI)で "Trusted Publisher Management" のページまで行く方法
 
-(2025-09) UI なんでよく変わる
+(2025-09) UI よく変わる
 
 ### 既存のプロジェクトの場合
 
@@ -151,11 +160,11 @@ PyPI/TestPyPI には、「空のプロジェクトを作る」機能はない。
 
 参照: [warehouse/docs/user/trusted-publishers/adding-a-publisher.md at main · pypi/warehouse · GitHub](https://github.com/pypi/warehouse/blob/main/docs/user/trusted-publishers/adding-a-publisher.md)
 
-#### (新プロジェクトの場合のみ) PyPI Project Name
+#### PyPI Project Name (新プロジェクトの場合のみ存在する)
 
 このパブリッシャーを使用すると PyPI/TestPyPI で作成されるプロジェクト名
 
-#### Owner (=リポジトリの所有者)
+#### Owner (リポジトリの所有者)
 
 **意味:** GitHub 上の組織またはユーザー名(リポジトリの最初の要素)。
 
@@ -168,11 +177,11 @@ Owner = octo-org
 - フォークではなく本家の所有者を指定してください (PyPI が信頼するのは指定オーナー配下のワークフローです)
 - リポジトリを別オーナーへ Transfer した場合は、この Owner も更新が必要です
 
-#### Repository name (=リポジトリ名)
+#### Repository name (リポジトリ名)
 
 **例:** `octo-org/sampleproject` の `sampleproject` に相当
 
-#### Workflow name(=ワークフローファイルのパス)
+#### Workflow name(ワークフローファイルのパス)
 
 **例:** `.github/workflows/example.yml` だったら `example.yml` を指定。
 

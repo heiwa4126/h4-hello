@@ -31,14 +31,14 @@ jobs:
         id: build
         run: |
           uv build
-          echo "package-built=true" >> $GITHUB_OUTPUT
+          echo "package-built=true" >> "$GITHUB_OUTPUT"
 
       # Verify that the built packages work correctly
       - name: Test wheel installation
-        run: uv run --isolated --no-project --with dist/*.whl src/h4_hello/main.py
+        run: uv run --isolated --no-project --with "dist/*.whl" src/h4_hello/main.py
 
       - name: Test source distribution installation
-        run: uv run --isolated --no-project --with dist/*.tar.gz src/h4_hello/main.py
+        run: uv run --isolated --no-project --with "dist/*.tar.gz" src/h4_hello/main.py
 
       - name: Upload built packages as artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

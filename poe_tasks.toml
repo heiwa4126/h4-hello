@@ -19,6 +19,17 @@ tests = ["test"]
 check = "ruff check ./src"
 mypy = "mypy src"
 pyproject = "validate-pyproject pyproject.toml"
+actionlint = "actionlint"
+
+# ======== before-build
+before = [
+  "check",
+  "format",
+  "mypy",
+  "tests",
+  "pyproject",
+  "actionlint",
+]
 
 # ======== utils
 format.shell = """
