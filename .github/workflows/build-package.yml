@@ -1,0 +1,48 @@
+name: Build Python Package
+
+on:
+  workflow_call:
+    outputs:
+      package-built:
+        description: "Whether the package was successfully built"
+        value: ${{ jobs.build.outputs.package-built }}
+
+jobs:
+  build:
+    name: Build Python distribution packages
+    runs-on: ubuntu-latest
+    outputs:
+      package-built: ${{ steps.build.outputs.package-built }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@b75a909f75acd358c2196fb9a5f1299a9a8868a4 # v6.7.0
+        with:
+          enable-cache: true
+      # Note: v6 may cause issues with nektos/act due to missing shims
+
+      - name: Set up Python environment
+        run: uv python install
+
+      - name: Build distribution packages
+        id: build
+        run: |
+          uv build
+          echo "package-built=true" >> $GITHUB_OUTPUT
+
+      # Verify that the built packages work correctly
+      - name: Test wheel installation
+        run: uv run --isolated --no-project --with dist/*.whl src/h4_hello/main.py
+
+      - name: Test source distribution installation
+        run: uv run --isolated --no-project --with dist/*.tar.gz src/h4_hello/main.py
+
+      - name: Upload built packages as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+          retention-days: 1

@@ -13,7 +13,10 @@
 - [testPyPI への手動パブリッシュ](#testpypi-への手動パブリッシュ)
 - [GitHub Actions でビルドとパブリッシュ (uv 版)](#github-actions-でビルドとパブリッシュ-uv-版)
 - [PyPI(testPyPI)で "Trusted Publisher Management" のページまで行く方法](#pypitestpypiで-trusted-publisher-management-のページまで行く方法)
+	- [既存のプロジェクトの場合](#既存のプロジェクトの場合)
+	- [新プロジェクトの場合](#新プロジェクトの場合)
 	- [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
+		- [(新プロジェクトの場合のみ) PyPI Project Name](#新プロジェクトの場合のみ-pypi-project-name)
 		- [Owner (=リポジトリの所有者)](#owner-リポジトリの所有者)
 		- [Repository name (=リポジトリ名)](#repository-name-リポジトリ名)
 		- [Workflow name(=ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
@@ -107,7 +110,11 @@ h4-hello
 
 ## PyPI(testPyPI)で "Trusted Publisher Management" のページまで行く方法
 
-(2025-09)
+(2025-09) UI なんでよく変わる
+
+### 既存のプロジェクトの場合
+
+すでに PyPI/TestPyPI 上にプロジェクトがあるとき。
 
 1. **PyPI(testPyPI)にログイン**\
    <https://pypi.org> (<https://test.pypi.org>) にアクセスし、アカウントでログインします
@@ -120,9 +127,26 @@ h4-hello
 5. **"Trusted Publisher Management"に着いたので Trusted Publisher を追加**\
    GitHub タブを選択すると、必要な入力フィールドが表示されます
 
+### 新プロジェクトの場合
+
+PyPI/TestPyPI には、「空のプロジェクトを作る」機能はない。でも Trusted Publishing の設定はできる。
+
+1. **PyPI(testPyPI)にログイン**\
+   <https://pypi.org> (<https://test.pypi.org>) にアクセスし、アカウントでログインします
+2. **対象プロジェクトを選択**\
+   右上のメニューから「Your projects (自分のプロジェクト)」をクリックし、設定したいプロジェクトを選びます
+3. **「Publishing」メニューを開く**\
+   左サイドバーの「Publishing」をクリックします
+4. **"Trusted Publisher Management"に着いたので Trusted Publisher を追加**\
+   GitHub タブを選択すると、必要な入力フィールドが表示されます
+
 ### GitHub Actions 用の各フィールド
 
 参照: [warehouse/docs/user/trusted-publishers/adding-a-publisher.md at main · pypi/warehouse · GitHub](https://github.com/pypi/warehouse/blob/main/docs/user/trusted-publishers/adding-a-publisher.md)
+
+#### (新プロジェクトの場合のみ) PyPI Project Name
+
+このパブリッシャーを使用すると PyPI/TestPyPI で作成されるプロジェクト名
 
 #### Owner (=リポジトリの所有者)
 
@@ -184,8 +208,5 @@ GitHub Container Registry (GHCR)
 - [h4_hello-0.1.4-py3-none-any.whl · TestPyPI](https://test.pypi.org/project/h4-hello/#h4_hello-0.1.4-py3-none-any.whl)
 
 どうやら "Verified details" の横のチェックマークは Sigstore 署名とは無関係に付くみたい。
-
-
-
 
 そのパッケージが Sigstore 署名されているかを確認するには、個別の tgz や whl のページに行って確認するしかない
