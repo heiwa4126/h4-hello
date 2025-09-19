@@ -1,9 +1,9 @@
 # h4-hello
 
-[![PyPI - Version](https://img.shields.io/pypi/v/h4-hello.svg)](https://pypi.org/project/h4-hello)
+[![PyPI - Version](https://img.shields.io/pypi/v/h4-hello.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/h4-hello.svg)
 ![Last Commit](https://img.shields.io/github/last-commit/heiwa4126/h4-hello)
-![PyPI - License](https://img.shields.io/pypi/l/h4-hello.svg)
+![PyPI - License](https://img.shields.io/pypi/l/h4-hello.svg)](https://pypi.org/project/h4-hello)
 
 **Table of Contents**
 
@@ -40,5 +40,5 @@ print(hello())
 
 ## Note
 
-これがこのプロジェクトの本体。\
-[GitHub レポジトリ](https://github.com/heiwa4126/h4-hello?tab=readme-ov-file#note) 上で見てね。[NOTE-ja.md](NOTE-ja.md)
+これがこのプロジェクトの本体。[NOTE-ja.md](NOTE-ja.md)\
+( [GitHub レポジトリ](https://github.com/heiwa4126/h4-hello?tab=readme-ov-file#note) 上で見てください。PyPI 上だとリンク切れ)
