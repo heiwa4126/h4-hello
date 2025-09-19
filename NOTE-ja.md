@@ -155,7 +155,7 @@ PyPI/TestPyPI には、「空のプロジェクトを作る」機能はない。
 1. **PyPI(testPyPI)にログイン**\
    <https://pypi.org> (<https://test.pypi.org>) にアクセスし、アカウントでログインします
 2. **対象プロジェクトを選択**\
-   右上のメニューから「Your projects (自分のプロジェクト)」をクリックし、設定したいプロジェクトを選びます
+   右上のメニューから「Your projects (自分のプロジェクト)」をクリック (ここからが[既存のプロジェクトの場合](#既存のプロジェクトの場合)と違う)
 3. **「Publishing」メニューを開く**\
    左サイドバーの「Publishing」をクリックします
 4. **"Trusted Publisher Management"に着いたので Trusted Publisher を追加**\
@@ -167,7 +167,8 @@ PyPI/TestPyPI には、「空のプロジェクトを作る」機能はない。
 
 #### PyPI Project Name (新プロジェクトの場合のみ存在する)
 
-このパブリッシャーを使用すると PyPI/TestPyPI で作成されるプロジェクト名
+このパブリッシャーを使った時に
+PyPI/TestPyPI で新しく作成されるプロジェクト名
 
 #### Owner (リポジトリの所有者)
 
