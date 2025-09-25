@@ -301,3 +301,22 @@ pypi-attestations verify pypi \
 ```
 
 TestPyPI の時と比較してずーっと楽だなあ。
+
+# 修正(2025-09-24)
+
+TestPyPI のワークフロー([publish-testpypi.yml](.github/workflows/publish-testpypi.yml))で、タグを"ex*" から "test-*"にした。
+
+発行の workflow の実行ができるのはオーナーのみにした
+(`if: github.repository_owner == github.actor` のところ)
+
+あとセキュリティ関係で GitHub の設定を変更
+
+Settings → Branches → Add rule:
+
+- ☑️ Require signed commits (署名されたコミットを要求)
+- ☑️ Restrict pushes that create files (これはきつすぎ.新しいファイルを作成するプッシュを制限する)
+
+Settings → Environments → testpypi/pypi:
+
+- ☑️ Required reviewers (自分を追加)
+- ☑️ Wait timer (必要に応じて)

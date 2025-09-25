@@ -6,6 +6,7 @@ type = "uv"
 [env]
 RUN_BASE = "src/h4_hello"
 TRIVY_IGNORE = "--skip-dirs ./tmp,./xml"
+SHELL = "bash"
 
 [tasks]
 main = "${RUN_BASE}/main.py"
@@ -39,7 +40,7 @@ dprint fmt --config ~/dprint.json &&
 textlint --fix "**/*.md"
 """
 
-update.shell = "uv lock -U && uv sync && uv cache prune"
+update.shell = "uv lock -U && uv sync"
 
 uvsync = "uv sync"
 requirements = "uv pip compile pyproject.toml --no-deps -o requirements.txt"
