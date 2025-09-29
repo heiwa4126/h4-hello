@@ -27,6 +27,7 @@
   - [TestPyPI のパッケージを署名確認する](#testpypi-のパッケージを署名確認する)
 - [TestPyPI 版から PyPI 版を作る](#testpypi-版から-pypi-版を作る)
 - [あっさり PyPI に deploy できたので署名を確認](#あっさり-pypi-に-deploy-できたので署名を確認)
+- [今後ローカルから直接 PyPI/TestPyPI に発行できないようにしたい](#今後ローカルから直接-pypitestpypi-に発行できないようにしたい)
 
 ## これは何か
 
@@ -306,6 +307,19 @@ TestPyPI の時と比較してずーっと楽だなあ。
 
 TestPyPI のワークフロー([publish-testpypi.yml](.github/workflows/publish-testpypi.yml))で、タグを"ex*" から "test-*"にした。
 
+手順はこんな感じ
+
+```sh
+git commit -am 'v0.1.11'
+git tag 'test-0.1.11' -m ''
+git push
+git push --tags
+# GitHub Actions と TestPyPI 確認
+git tag 'v0.1.11' -m ''
+git push --tags
+# GitHub Actions と PyPI 確認
+```
+
 発行の workflow の実行ができるのはオーナーのみにした
 (`if: github.repository_owner == github.actor` のところ)
 
@@ -320,3 +334,15 @@ Settings → Environments → testpypi/pypi:
 
 - ☑️ Required reviewers (自分を追加)
 - ☑️ Wait timer (必要に応じて)
+
+## 今後ローカルから直接 PyPI/TestPyPI に発行できないようにしたい
+
+んだけど npmjs みたいに簡単な切り替えスイッチが無い。
+
+まず 2024 年頭から 2FA 必須になってるのでこれはクリア
+[2FA Required for PyPI - The Python Package Index Blog](https://blog.pypi.org/posts/2024-01-01-2fa-enforced/)
+
+あとは `~/.pypirc` から pipy/testpypi のトークンを消す(twine)。
+場合によっては AWS の codeartifact なんかに出してる可能性があるので、それは消さないように注意
+
+`uv publish` は `~/.config/uv/config.toml` を確認。
