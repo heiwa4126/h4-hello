@@ -72,7 +72,7 @@ uv build
 # 中身を確認して(`tar tzvf` と zipinfo)、余計なものがあったら
 # pyproject.toml の [tool.uv.build-backend] で調整
 
-# 「パッケージをimportできるか」程度の簡単なテスト
+# 「パッケージをimportできるか」程度の簡単なテスト(smoke test)
 uv run --isolated --no-project --with "dist/*.whl" src/h4_hello/main.py
 uv run --isolated --no-project --with "dist/*.tar.gz" src/h4_hello/main.py
 ```

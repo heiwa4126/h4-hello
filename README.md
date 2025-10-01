@@ -31,15 +31,15 @@ or
 
 ```python
 from h4_hello.hello import hello
-print(hello())
+print(hello())  ## -> Hello!
 ```
 
 ## License
 
-`h4-hello` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+`h4-hello` is distributed under the terms of the [MIT](https://opensource.org/licenses/MIT) license.
 
 ## Note
 
-[NOTE-ja.md](<[NOTE-ja.md](https://github.com/heiwa4126/h4-hello/blob/main/NOTE-ja.md)>)
+[NOTE-ja.md]([NOTE-ja.md](https://github.com/heiwa4126/h4-hello/blob/main/NOTE-ja.md))
 (on GitHub)
 これがこのプロジェクトの本体。
