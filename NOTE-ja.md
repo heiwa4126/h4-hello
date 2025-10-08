@@ -222,6 +222,8 @@ PyPI の UI では任意ですが、セキュリティと運用上の理由で�
 
 ## `uv deploy` は PEP740 はまだ駄目なので (2025-09)
 
+update 2025-10: uv v0.9 でサポートされるといいなあ、と思ったけどまだダメみたい。まあ難しいのはわかる
+
 - [uv publish: create attestations · Issue #15618 · astral-sh/uv](https://github.com/astral-sh/uv/issues/15618)
 
 [pypa/gh-action-pypi-publish](https://github.com/pypa/gh-action-pypi-publish)
