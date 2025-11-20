@@ -5,26 +5,26 @@
 - [これは何か](#これは何か)
 - [作った手順](#作った手順)
 - [参考リンク](#参考リンク)
-  - [ビルド関連](#ビルド関連)
-  - [パブリッシュ関連](#パブリッシュ関連)
+	- [ビルド関連](#ビルド関連)
+	- [パブリッシュ関連](#パブリッシュ関連)
 - [ビルドとテスト](#ビルドとテスト)
 - [testPyPI のトークン取得](#testpypi-のトークン取得)
 - [TestPyPI への手動パブリッシュ](#testpypi-への手動パブリッシュ)
 - [GitHub Actions でビルドとパブリッシュ (uv 版)](#github-actions-でビルドとパブリッシュ-uv-版)
 - [PyPI(testPyPI)で "Trusted Publisher Management" のページまで行く方法](#pypitestpypiで-trusted-publisher-management-のページまで行く方法)
-  - [既存のプロジェクトの場合](#既存のプロジェクトの場合)
-  - [新プロジェクトの場合](#新プロジェクトの場合)
-  - [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
-    - [PyPI Project Name (新プロジェクトの場合のみ存在する)](#pypi-project-name-新プロジェクトの場合のみ存在する)
-    - [Owner (リポジトリの所有者)](#owner-リポジトリの所有者)
-    - [Repository name (リポジトリ名)](#repository-name-リポジトリ名)
-    - [Workflow name(ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
-    - [Environment (任意)](#environment-任意)
-    - [以上をまとめると](#以上をまとめると)
+	- [既存のプロジェクトの場合](#既存のプロジェクトの場合)
+	- [新プロジェクトの場合](#新プロジェクトの場合)
+	- [GitHub Actions 用の各フィールド](#github-actions-用の各フィールド)
+		- [PyPI Project Name (新プロジェクトの場合のみ存在する)](#pypi-project-name-新プロジェクトの場合のみ存在する)
+		- [Owner (リポジトリの所有者)](#owner-リポジトリの所有者)
+		- [Repository name (リポジトリ名)](#repository-name-リポジトリ名)
+		- [Workflow name(ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
+		- [Environment (任意)](#environment-任意)
+		- [以上をまとめると](#以上をまとめると)
 - [Sigstore なしで `uv deploy` で TestPyPI にデプロイする最後のバージョンの workflow](#sigstore-なしで-uv-deploy-で-testpypi-にデプロイする最後のバージョンの-workflow)
 - [`uv deploy` は PEP740 はまだ駄目なので (2025-09)](#uv-deploy-は-pep740-はまだ駄目なので-2025-09)
 - [Sigstore つける前と後の比較](#sigstore-つける前と後の比較)
-  - [TestPyPI のパッケージを署名確認する](#testpypi-のパッケージを署名確認する)
+	- [TestPyPI のパッケージを署名確認する](#testpypi-のパッケージを署名確認する)
 - [TestPyPI 版から PyPI 版を作る](#testpypi-版から-pypi-版を作る)
 - [あっさり PyPI に deploy できたので署名を確認](#あっさり-pypi-に-deploy-できたので署名を確認)
 - [今後ローカルから直接 PyPI/TestPyPI に発行できないようにしたい](#今後ローカルから直接-pypitestpypi-に発行できないようにしたい)
@@ -63,9 +63,15 @@ uv で作った Python のプロジェクトを PEP740 の署名付きで PyPI �
 ## ビルドとテスト
 
 ```sh
-poe check
-poe mypy
-poe tests
+# 統合ビルドタスク(lint, format, tests, build, smoke-test を全て実行)
+poe build
+
+# または個別に実行
+poe check     # ruff linting
+poe mypy      # 型チェック
+poe test      # pytest実行
+poe format    # コードフォーマット
+poe lint      # 全てのlinter実行
 
 uv build
 # ./dist以下に .tar.gz と .whlができるので
@@ -73,8 +79,10 @@ uv build
 # pyproject.toml の [tool.uv.build-backend] で調整
 
 # 「パッケージをimportできるか」程度の簡単なテスト(smoke test)
-uv run --isolated --no-project --with "dist/*.whl" src/h4_hello/main.py
-uv run --isolated --no-project --with "dist/*.tar.gz" src/h4_hello/main.py
+poe smoke-test
+# または手動で
+uv run --isolated --no-project --refresh --no-cache --with "dist/*.whl" h4-hello -V
+uv run --isolated --no-project --refresh --no-cache --with "dist/*.tar.gz" h4-hello --help
 ```
 
 ## testPyPI のトークン取得
@@ -98,15 +106,21 @@ uv run --isolated --no-project --with "dist/*.tar.gz" src/h4_hello/main.py
 例:
 
 ```sh
-uv version --bump patch  # このへんはアレンジ
-git commit -am 'v9.9.9'  # 上で表示されたやつ
-git tag -a 'v9.9.9' -m 'v9.9.9'
-rm dist/* -f
-uv build
-poe testpypi
+# pyproject.tomlのバージョンを手動で更新(例: 0.1.12b2)
+git commit -am 'test-0.1.12b2'
+git tag -a 'test-0.1.12b2' -m 'test-0.1.12b2'
+git push
+git push --tags
+# GitHub Actionsが自動的にTestPyPIにデプロイ
 ```
 
-TODO: なんかめんどくさいね。自動化する。
+または手動でローカルからデプロイ:
+
+```sh
+rm dist/* -f
+uv build
+poe testpypi  # .envにTEST_PYPI_TOKENが必要
+```
 
 TestPyPI にパブリッシュできたら別環境でテストする。
 

@@ -9,9 +9,10 @@ This is a practice project for publishing Python packages to PyPI with PEP740 di
 ### Package Structure
 
 - `src/h4_hello/` - Source package using src-layout pattern
-- `hello.py` - Core function implementation
-- `main.py` - CLI entry point (exposed as `h4-hello` command)
-- `hello_test.py` - Co-located test files (excluded from builds via `tool.uv.build-backend`)
+- `_core.py` - Core function implementation (`hello()` function)
+- `__main__.py` - CLI entry point (exposed as `h4-hello` command)
+- `_core_test.py` - Co-located test files (excluded from builds via `tool.uv.build-backend`)
+- `__init__.py` - Package initialization, exports `hello` and `__version__`
 
 ### Build System
 
@@ -29,26 +30,32 @@ Use `poe <task>` commands defined in `poe_tasks.toml`:
 poe test          # Run pytest tests
 poe check         # Ruff linting
 poe mypy          # Type checking
-poe format        # Auto-format code
-poe before        # Full pre-commit checks
+poe format        # Auto-format code (ruff, dprint, textlint)
+poe lint          # Run all linters (check, mypy, pep440check, pyproject-lint)
+poe build         # Full build workflow (lint, test, clean, pack, smoke-test)
+poe smoke-test    # Test built packages in isolation
 poe testpypi      # Deploy to TestPyPI (requires .env)
 ```
 
 ### Build & Test Workflow
 
 ```bash
-# Pre-build validation
-poe before        # Runs check, format, mypy, tests, pyproject validation
+# Full build workflow (recommended)
+poe build         # Runs lint, test, clean, pack, smoke-test
 
-# Build packages
+# Or run steps individually
+poe lint          # Run all linters
+poe test          # Run pytest tests
 uv build          # Creates both .tar.gz and .whl in dist/
+poe smoke-test    # Test built packages in isolation
 
-# Smoke test built packages
-uv run --isolated --no-project --with "dist/*.whl" src/h4_hello/main.py
-uv run --isolated --no-project --with "dist/*.tar.gz" src/h4_hello/main.py
+# Individual smoke tests
+uv run --isolated --no-project --refresh --no-cache --with dist/*.whl h4-hello -V
+uv run --isolated --no-project --refresh --no-cache --with dist/*.tar.gz h4-hello --help
+uv run --isolated --no-project --refresh --no-cache --with dist/*.whl examples/ex1.py
 ```
 
-### Publishing Strategy
+### Tags & Publishing
 
 - **TestPyPI**: Tag with `test-*` (e.g., `test-0.1.11`) triggers TestPyPI deployment
 - **PyPI**: Tag with `v*` semver (e.g., `v0.1.11`) triggers PyPI deployment
@@ -59,7 +66,7 @@ uv run --isolated --no-project --with "dist/*.tar.gz" src/h4_hello/main.py
 ### Version Management
 
 - Manual version bumps in `pyproject.toml` (no automated versioning)
-- Beta versions supported: `0.1.12-beta1`
+- Beta versions supported: `0.1.12b1` (PEP440 canonical format only)
 - Git tags should match pyproject.toml version
 
 ### Testing & Quality
@@ -80,8 +87,9 @@ uv run --isolated --no-project --with "dist/*.tar.gz" src/h4_hello/main.py
 ### `pyproject.toml`
 
 - Uses `uv_build` backend (not setuptools)
-- CLI entry point: `h4-hello = "h4_hello:main"`
-- Build exclusions handle test files
+- CLI entry point: `h4-hello = "h4_hello.__main__:main"`
+- Build exclusions handle test files (`**/*_test.py` excluded)
+- Test files co-located with source code
 
 ### `poe_tasks.toml`
 

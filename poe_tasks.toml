@@ -9,7 +9,6 @@ TRIVY_IGNORE = "--skip-dirs ./tmp,./xml"
 SHELL = "bash"
 
 [tasks]
-main = "${RUN_BASE}/main.py"
 cli = "h4-hello"
 
 # ======== tests
@@ -17,18 +16,20 @@ test = "pytest -v --tb=short src"
 tests = ["test"]
 
 # ======== smoke tests
-smoke1 = "uv run --isolated --no-project --refresh --no-cache --with dist/*.whl h4-hello"
-smoke2 = "uv run --isolated --no-project --refresh --no-cache --with dist/*.tar.gz h4-hello"
-smoke_test = ["smoke1", "smoke2"]
+smoke1 = "uv run --isolated --no-project --refresh --no-cache --with dist/*.whl h4-hello -V"
+smoke2 = "uv run --isolated --no-project --refresh --no-cache --with dist/*.tar.gz h4-hello --help"
+smoke3 = "uv run --isolated --no-project --refresh --no-cache --with dist/*.whl examples/ex1.py"
+
+smoke-test = ["smoke1", "smoke2", "smoke3"]
 
 # ======== lint
 check = "ruff check ./src"
 mypy = "mypy src"
 pep440check = "pep440check"
-pyprojectlint = "validate-pyproject pyproject.toml"
+pyproject-lint = "validate-pyproject pyproject.toml"
 actionlint = "actionlint"
 
-lint = ["pep440check", "check", "mypy", "pyprojectlint"]
+lint = ["pep440check", "check", "mypy", "pyproject-lint"]
 "lint-full" = ["lint", "actionlint"]
 
 # ======== build
@@ -42,7 +43,7 @@ build = [
   # "actionlint",
   "clean",
   "pack",
-  "smoke_test",
+  "smoke-test",
 ]
 
 # ======== utils

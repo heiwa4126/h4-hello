@@ -23,7 +23,7 @@ Issues = "https://github.com/heiwa4126/h4-hello/issues"
 Source = "https://github.com/heiwa4126/h4-hello"
 
 [project.scripts]
-h4-hello = "h4_hello:main"
+h4-hello = "h4_hello.__main__:main"
 
 [build-system]
 requires = ["uv_build>=0.8.17,<0.9.0"]
