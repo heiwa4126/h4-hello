@@ -22,6 +22,24 @@ This is a practice project for publishing Python packages to PyPI with PEP740 di
 
 ## Development Workflows
 
+### Python Environment
+
+This project uses **uv** with a local `.venv` directory. When running shell commands that need Python:
+
+```bash
+# Activate the virtual environment first
+source .venv/bin/activate
+
+# Then run Python commands
+python --version
+```
+
+Alternatively, use `uv run` to automatically use the correct environment:
+
+```bash
+uv run python --version
+```
+
 ### Task Management with poethepoet
 
 Use `poe <task>` commands defined in `poe_tasks.toml`:
