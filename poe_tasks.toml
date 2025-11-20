@@ -10,6 +10,7 @@ SHELL = "bash"
 
 [tasks]
 cli = "h4-hello"
+ex1 = "uv run examples/ex1.py"
 
 # ======== tests
 test = "pytest -v --tb=short src"
