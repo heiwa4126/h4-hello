@@ -1,4 +1,4 @@
-from h4_hello.hello import hello
+from ._core import hello
 
 
 def test_hello() -> None:

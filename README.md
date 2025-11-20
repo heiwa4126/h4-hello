@@ -31,7 +31,7 @@ or
 
 ```python
 from h4_hello.hello import hello
-print(hello())  ## -> Hello!
+print(hello())  # -> Hello!
 ```
 
 ## License

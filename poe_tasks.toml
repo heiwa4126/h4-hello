@@ -16,20 +16,33 @@ cli = "h4-hello"
 test = "pytest -v --tb=short src"
 tests = ["test"]
 
+# ======== smoke tests
+smoke1 = "uv run --isolated --no-project --refresh --no-cache --with dist/*.whl h4-hello"
+smoke2 = "uv run --isolated --no-project --refresh --no-cache --with dist/*.tar.gz h4-hello"
+smoke_test = ["smoke1", "smoke2"]
+
 # ======== lint
 check = "ruff check ./src"
 mypy = "mypy src"
-pyproject = "validate-pyproject pyproject.toml"
+pep440check = "pep440check"
+pyprojectlint = "validate-pyproject pyproject.toml"
 actionlint = "actionlint"
 
-# ======== before-build
-before = [
-  "check",
-  "format",
-  "mypy",
+lint = ["pep440check", "check", "mypy", "pyprojectlint"]
+"lint-full" = ["lint", "actionlint"]
+
+# ======== build
+clean = "python -c \"import shutil; shutil.rmtree('dist', ignore_errors=True)\""
+pack = "uv build"
+
+build = [
+  "lint",
+  # "format",
   "tests",
-  "pyproject",
-  "actionlint",
+  # "actionlint",
+  "clean",
+  "pack",
+  "smoke_test",
 ]
 
 # ======== utils

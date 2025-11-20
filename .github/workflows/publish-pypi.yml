@@ -3,22 +3,31 @@ name: Build and Publish to PyPI
 on:
   push:
     tags:
-      # 通常リリース: 例) v1.2.3
+      # Regular releases: e.g. v1.2.3
       - "v[0-9]+.[0-9]+.[0-9]+"
-      # プリリリースのみ: 例) v1.2.3-rc.1, v1.2.3-beta など(必ず '-' が付く)
-      - "v[0-9]+.[0-9]+.[0-9]+-*"
-
+      # Pre-releases: e.g. v1.2.3rc1, v1.2.3b1, v1.2.3a1 (PEP 440 format)
+      - "v[0-9]+.[0-9]+.[0-9]+(a|b|rc)[0-9]+"
 jobs:
+  security-check:
+    name: Security check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check repository owner
+        if: github.repository_owner != github.actor
+        run: |
+          echo "Error: Only repository owner can trigger this workflow"
+          exit 1
+
   build:
     name: Build package
+    needs: security-check
     uses: ./.github/workflows/build-package.yml
 
   publish-pypi:
     name: Publish to PyPI
     runs-on: ubuntu-latest
     needs: build
-    # Only run if pushed by repository owner
-    if: github.repository_owner == github.actor
+    if: needs.build.outputs.package-built == 'true'
     environment: pypi
     permissions:
       # IMPORTANT: this permission is mandatory for Trusted Publishing
@@ -34,3 +43,5 @@ jobs:
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
+        with:
+          skip-existing: true
