@@ -9,5 +9,6 @@
 		"shunsuke",
 		"Sigstore",
 		"testpypi"
-	]
+	],
+	"python.terminal.activateEnvInCurrentTerminal": true
 }
