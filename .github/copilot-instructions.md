@@ -128,6 +128,14 @@ uv run --isolated --no-project --refresh --no-cache --with dist/*.whl examples/e
 - **GitHub Actions** with OIDC for publishing (no manual secrets)
 - **TestPyPI** for validation before PyPI release
 
+## Prompt Files
+
+When creating plan or prompt files in `.github/prompts/`:
+
+- Use the naming pattern: `plan-${camelCaseName}-YYYYMMDD.prompt.md`
+- Include the current date as a timestamp (e.g., `plan-goodbyeFeature-20251120.prompt.md`)
+- This helps track when plans were created and allows multiple iterations
+
 ## Common Pitfalls
 
 - Don't use `pip install -e .` - use `uv sync` for development
