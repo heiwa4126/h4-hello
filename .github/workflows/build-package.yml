@@ -23,7 +23,6 @@ jobs:
         with:
           version: ">=0.9.12"
           enable-cache: true
-      # Note: v6 may cause issues with nektos/act due to missing shims
 
       - name: Set up Python environment (default)
         run: uv python install
