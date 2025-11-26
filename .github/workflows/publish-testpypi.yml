@@ -52,4 +52,4 @@ jobs:
       #     # attestations: true  # PEP740 attestations (enabled by default)
 
       - name: Publish to TestPyPI by uv >= 0.9.12
-        run: uv publish --repository https://test.pypi.org/legacy/
+        run: uv publish --publish-url https://test.pypi.org/legacy/
