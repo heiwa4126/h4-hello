@@ -50,9 +50,12 @@ poe check         # Ruff linting
 poe mypy          # Type checking
 poe format        # Auto-format code (ruff, dprint, textlint)
 poe lint          # Run all linters (check, mypy, pep440check, pyproject-lint)
+poe lint-full     # Run all linters including actionlint
 poe build         # Full build workflow (lint, test, clean, pack, smoke-test)
 poe smoke-test    # Test built packages in isolation
 poe testpypi      # Deploy to TestPyPI (requires .env)
+poe cli           # Run h4-hello CLI
+poe ex1           # Run example script
 ```
 
 ### Build & Test Workflow
@@ -92,13 +95,16 @@ uv run --isolated --no-project --refresh --no-cache --with dist/*.whl examples/e
 - Tests use simple assert statements (no complex frameworks)
 - Co-located test files (`*_test.py`) automatically excluded from builds
 - Strict tooling: ruff, mypy, actionlint for workflows
+- Development dependencies managed via `[dependency-groups]` (not `[project.optional-dependencies]`)
+- Key dev tools: bumpuv, mypy, pep440check, poethepoet, pytest, ruff, validate-pyproject
 
 ### Security & Publishing
 
 - **Trusted Publishing only** - no API tokens in workflows
-- Owner-only publishing: `if: github.repository_owner == github.actor`
-- PEP740 Sigstore attestations enabled by default
+- Owner-only publishing: `if: github.repository_owner != github.actor` security check job
+- PEP740 Sigstore attestations enabled by default (via `pypa/gh-action-pypi-publish`)
 - Environment-based deployment gates (`environment: testpypi/pypi`)
+- Security check job runs before build to prevent unauthorized publishing
 
 ## Key Configuration Files
 
@@ -142,3 +148,4 @@ When creating plan or prompt files in `.github/prompts/`:
 - Build backend is `uv_build`, not `setuptools.build_meta`
 - Test files are excluded via pyproject.toml, not .gitignore
 - Publishing requires repository owner permissions (security feature)
+- Pre-release versions must use PEP440 canonical format (e.g., `0.1.14a4` not `0.1.14-alpha4`)

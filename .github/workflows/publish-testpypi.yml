@@ -19,6 +19,7 @@ jobs:
 
   build:
     name: Build package
+    needs: security-check
     uses: ./.github/workflows/build-package.yml
 
   publish-testpypi:
