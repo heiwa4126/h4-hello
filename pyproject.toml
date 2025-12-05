@@ -1,6 +1,6 @@
 [project]
 name = "h4-hello"
-version = "0.1.14a7"
+version = "0.1.14"
 description = "A simple hello world example"
 keywords = ["demo", "hello"]
 classifiers = [
