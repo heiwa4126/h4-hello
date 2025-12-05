@@ -25,7 +25,7 @@ smoke-test = ["smoke1", "smoke2", "smoke3"]
 
 # ======== lint
 check = "ruff check ./src"
-mypy = "mypy src"
+mypy = "pyrefly check src"
 pep440check = "pep440check"
 pyproject-lint = "validate-pyproject pyproject.toml"
 actionlint = "actionlint"

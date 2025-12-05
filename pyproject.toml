@@ -32,10 +32,10 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
   "bumpuv>=0.0.5",
-  "mypy>=1.18.1",
   "pep440check>=0.0.2",
   "poethepoet>=0.37.0",
   "pytest>=8.4.2",
+  "pyrefly>=0.44.1",
   "ruff>=0.13.0",
   "validate-pyproject>=0.24.1",
 ]
