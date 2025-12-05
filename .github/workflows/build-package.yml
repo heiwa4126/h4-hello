@@ -46,7 +46,6 @@ jobs:
       # # Verify that the built packages work correctly
       # - name: Test wheel installation
       #   run: uv run --isolated --no-project --with dist/*.whl h4-hello
-
       # - name: Test source distribution installation
       #   run: uv run --isolated --no-project --with dist/*.tar.gz h4-hello
 

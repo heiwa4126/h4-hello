@@ -21,6 +21,10 @@ jobs:
 
   osv-scan:
     name: OSV Scan
+    permissions:
+      actions: read
+      security-events: write
+      contents: read
     uses: ./.github/workflows/osv-scan.yml
 
   build:
