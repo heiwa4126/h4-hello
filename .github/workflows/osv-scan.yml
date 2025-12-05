@@ -1,0 +1,18 @@
+name: OSV Scan
+
+on:
+  workflow_call:
+
+jobs:
+  osv-scan:
+    if: github.repository_owner == github.actor
+    uses: google/osv-scanner-action/.github/workflows/osv-scanner-reusable.yml@b77c075a1235514558f0eb88dbd31e22c45e0cd2 # v2.3.0
+    permissions:
+      # Required to upload SARIF file to CodeQL
+      actions: read
+      # Require writing security events to upload SARIF file to security tab
+      security-events: write
+      # Only need to read contents
+      contents: read
+    with:
+      scan-args: "--lockfile=uv.lock ."

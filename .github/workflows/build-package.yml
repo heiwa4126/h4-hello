@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
       - name: Set up uv
         uses: astral-sh/setup-uv@1e862dfacbd1d6d858c55d9b792c756523627244 # v7.1.4
@@ -24,10 +24,8 @@ jobs:
           version: ">=0.9.12"
           enable-cache: true
 
-      - name: Set up Python environment (default)
+      - name: Set up Python environment (.python-version)
         run: uv python install
-      # - name: Set up Python environment (3.10)
-      #   run: uv python install 3.10
 
       - name: Configure Git for tests
         run: |
@@ -47,10 +45,10 @@ jobs:
 
       # # Verify that the built packages work correctly
       # - name: Test wheel installation
-      #   run: uv run --isolated --no-project --with dist/*.whl bumpuv
+      #   run: uv run --isolated --no-project --with dist/*.whl h4-hello
 
       # - name: Test source distribution installation
-      #   run: uv run --isolated --no-project --with dist/*.tar.gz bumpuv
+      #   run: uv run --isolated --no-project --with dist/*.tar.gz h4-hello
 
       - name: Upload built packages as artifact
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0

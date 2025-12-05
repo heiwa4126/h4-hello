@@ -17,9 +17,13 @@ jobs:
           echo "Error: Only repository owner can trigger this workflow"
           exit 1
 
+  osv-scan:
+    name: OSV Scan
+    uses: ./.github/workflows/osv-scan.yml
+
   build:
     name: Build package
-    needs: security-check
+    needs: [security-check, osv-scan]
     uses: ./.github/workflows/build-package.yml
 
   publish-testpypi:

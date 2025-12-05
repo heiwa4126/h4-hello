@@ -7,6 +7,7 @@ on:
       - "v[0-9]+.[0-9]+.[0-9]+"
       # Pre-releases: e.g. v1.2.3rc1, v1.2.3b1, v1.2.3a1 (PEP 440 format)
       - "v[0-9]+.[0-9]+.[0-9]+(a|b|rc)[0-9]+"
+
 jobs:
   security-check:
     name: Security check
@@ -18,9 +19,13 @@ jobs:
           echo "Error: Only repository owner can trigger this workflow"
           exit 1
 
+  osv-scan:
+    name: OSV Scan
+    uses: ./.github/workflows/osv-scan.yml
+
   build:
     name: Build package
-    needs: security-check
+    needs: [security-check, osv-scan]
     uses: ./.github/workflows/build-package.yml
 
   publish-pypi:
