@@ -38,22 +38,17 @@ clean = "python -c \"import shutil; shutil.rmtree('dist', ignore_errors=True)\""
 pack = "uv build"
 
 build = [
-  "lint",
-  # "format",
-  "tests",
-  # "actionlint",
-  "clean",
-  "pack",
-  "smoke-test",
+	"lint",
+	# "format",
+	"tests",
+	# "actionlint",
+	"clean",
+	"pack",
+	"smoke-test"
 ]
 
 # ======== utils
-format.shell = """
-ruff format &&
-# biome format --write . &&
-dprint fmt --config ~/dprint.json &&
-textlint --fix "**/*.md"
-"""
+format.shell = "ruff format && oxfmt"
 
 update.shell = "uv lock -U && uv sync"
 
