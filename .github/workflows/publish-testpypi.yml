@@ -1,3 +1,5 @@
+permissions: {}
+
 name: Build and Publish to TestPyPI
 
 on:
@@ -23,12 +25,14 @@ jobs:
       actions: read
       security-events: write
       contents: read
-    uses: ./.github/workflows/osv-scan.yml
+    uses: $/.github/workflows/osv-scan.yml
 
   build:
     name: Build package
     needs: [security-check, osv-scan]
-    uses: ./.github/workflows/build-package.yml
+    permissions:
+      contents: read
+    uses: $/.github/workflows/build-package.yml
 
   publish-testpypi:
     name: Publish to TestPyPI
