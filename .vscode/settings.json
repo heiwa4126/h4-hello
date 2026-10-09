@@ -1,14 +1,15 @@
 {
-	"cSpell.words": [
-		"bumpuv",
-		"nektos",
-		"pinact",
-		"PYPI",
-		"pyprojectlint",
-		"rhysd",
-		"shunsuke",
-		"Sigstore",
-		"testpypi"
-	],
-	"python.terminal.activateEnvInCurrentTerminal": true
+  "cSpell.words": [
+    "bumpuv",
+    "nektos",
+    "pinact",
+    "PYPI",
+    "pyprojectlint",
+    "rhysd",
+    "shunsuke",
+    "Sigstore",
+    "testpypi"
+  ],
+  "python.terminal.activateEnvInCurrentTerminal": true,
+  "python.analysis.diagnosticsSource": "Pylance + Pyrefly"
 }
