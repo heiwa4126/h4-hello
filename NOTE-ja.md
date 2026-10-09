@@ -21,8 +21,8 @@
     - [Workflow name(ワークフローファイルのパス)](#workflow-nameワークフローファイルのパス)
     - [Environment (任意)](#environment-任意)
     - [以上をまとめると](#以上をまとめると)
-- [Sigstore なしで `uv deploy` で TestPyPI にデプロイする最後のバージョンの workflow](#sigstore-なしで-uv-deploy-で-testpypi-にデプロイする最後のバージョンの-workflow)
-- [`uv deploy` は PEP740 はまだ駄目なので (2025-09)](#uv-deploy-は-pep740-はまだ駄目なので-2025-09)
+- [Sigstore なしで`uv deploy`で TestPyPI にデプロイする最後のバージョンの workflow](#sigstore-なしで-uv-deploy-で-testpypi-にデプロイする最後のバージョンの-workflow)
+- [`uv deploy`は PEP740 はまだ駄目なので (2025-09)](#uv-deploy-は-pep740-はまだ駄目なので-2025-09)
 - [Sigstore つける前と後の比較](#sigstore-つける前と後の比較)
   - [TestPyPI のパッケージを署名確認する](#testpypi-のパッケージを署名確認する)
 - [TestPyPI 版から PyPI 版を作る](#testpypi-版から-pypi-版を作る)
@@ -36,14 +36,14 @@ uv で作った Python のプロジェクトを PEP740 の署名付きで PyPI �
 ## 作った手順
 
 1. uv でパッケージを作る (build backend も uv)
-1. TestPyPI で公開する(手動)。publish も `uv publish`で。twine は使わない
+1. TestPyPI で公開する(手動)。publish も`uv publish`で。twine は使わない
    - 「すべてのプロジェクト」スコープのトークンを使う
 1. GitHub Actions 経由で、testPyPI に公開する。
    - TestPyPI 上の既存プロジェクトに対して Trusted publishing 設定する
-   - この段階では workflow でも `uv publish` を使う
+   - この段階では workflow でも`uv publish`を使う
    - suzuki-shunsuke/pinact, rhysd/actionlint, nektos/act などを使う (あと aquaproj/aqua)
 1. Sigstore 署名をつけて testPyPI に公開する
-   - workflow を `uv publish` から `pypa/gh-action-pypi-publish` に変更
+   - workflow を`uv publish`から`pypa/gh-action-pypi-publish`に変更
 1. Sigstore 署名をつけて PyPI に公開する
    - PyPI 上で新規プロジェクトとして Trusted publishing を設定
 1. ドキュメントをまとめる
@@ -95,7 +95,7 @@ uv run --isolated --no-project --refresh --no-cache --with "dist/*.tar.gz" h4-he
    - TestPyPI の右上メニュー → Account Settings → API tokens →「Add API token」
    - トークン名を入力し、Create token をクリック
    - **表示されたトークンは一度しか表示されないので必ずコピーして保存**
-     ここでは `.env` に保存
+     ここでは`.env`に保存
      ```sh
      cp .env.template .env
      vim .env # コピペする
@@ -189,7 +189,7 @@ PyPI/TestPyPI で新しく作成されるプロジェクト名
 
 **意味:** GitHub 上の組織またはユーザー名(リポジトリの最初の要素)。
 
-例: `https://github.com/octo-org/sampleproject` の場合、
+例: `https://github.com/octo-org/sampleproject`の場合、
 Owner = octo-org
 
 **注意:**
@@ -200,11 +200,11 @@ Owner = octo-org
 
 #### Repository name (リポジトリ名)
 
-**例:** `octo-org/sampleproject` の `sampleproject` に相当
+**例:** `octo-org/sampleproject`の`sampleproject`に相当
 
 #### Workflow name(ワークフローファイルのパス)
 
-**例:** `.github/workflows/example.yml` だったら `example.yml` を指定。
+**例:** `.github/workflows/example.yml`だったら`example.yml`を指定。
 
 #### Environment (任意)
 
@@ -228,13 +228,13 @@ PyPI の UI では任意ですが、セキュリティと運用上の理由で�
 - Workflow name: publish-pypi.yml
 - Environment: pypi
 
-## Sigstore なしで `uv deploy` で TestPyPI にデプロイする最後のバージョンの workflow
+## Sigstore なしで`uv deploy`で TestPyPI にデプロイする最後のバージョンの workflow
 
 [h4-hello/.github/workflows/publish-testpypi.yml at c286e1706a4a0f6c5a52a11da62d1fafa47ddc18 · heiwa4126/h4-hello](https://github.com/heiwa4126/h4-hello/blob/c286e1706a4a0f6c5a52a11da62d1fafa47ddc18/.github/workflows/publish-testpypi.yml)
 
-`ex*` というタグ付けると TestPyPI にデプロイする仕様。
+`ex*`というタグ付けると TestPyPI にデプロイする仕様。
 
-## `uv deploy` は PEP740 はまだ駄目なので (2025-09)
+## `uv deploy`は PEP740 はまだ駄目なので (2025-09)
 
 update 2025-10: uv v0.9 でサポートされるといいなあ、と思ったけどまだダメみたい。まあ難しいのはわかる
 
@@ -244,7 +244,7 @@ update 2025-10: uv v0.9 でサポートされるといいなあ、と思った�
 に入れ替える。
 
 ...あっさりできた。GitHub Actions のログがなんかえらいことに。
-Docker イメージ `ghcr.io/pypa/gh-action-pypi-publish:release-v1` で実行されるらしい。
+Docker イメージ`ghcr.io/pypa/gh-action-pypi-publish:release-v1`で実行されるらしい。
 
 コンテナは GitHub Container Registry (GHCR) にあるこれ [Package gh-action-pypi-publish](https://github.com/pypa/gh-action-pypi-publish/pkgs/container/gh-action-pypi-publish)
 
@@ -337,7 +337,7 @@ git push --tags
 ```
 
 発行の workflow の実行ができるのはオーナーのみにした
-(`if: github.repository_owner == github.actor` のところ)
+(`if: github.repository_owner == github.actor`のところ)
 
 あとセキュリティ関係で GitHub の設定を変更
 
@@ -358,7 +358,7 @@ Settings → Environments → testpypi/pypi:
 まず 2024 年頭から 2FA 必須になってるのでこれはクリア
 [2FA Required for PyPI - The Python Package Index Blog](https://blog.pypi.org/posts/2024-01-01-2fa-enforced/)
 
-あとは `~/.pypirc` から pipy/testpypi のトークンを消す(twine)。
+あとは`~/.pypirc`から pipy/testpypi のトークンを消す(twine)。
 場合によっては AWS の codeartifact なんかに出してる可能性があるので、それは消さないように注意
 
-`uv publish` は `~/.config/uv/config.toml` を確認。
+`uv publish`は`~/.config/uv/config.toml`を確認。
