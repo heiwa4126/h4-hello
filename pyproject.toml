@@ -1,15 +1,15 @@
 [project]
 name = "h4-hello"
-version = "0.1.16"
+version = "0.1.15"
 description = "A simple hello world example"
 keywords = ["demo", "hello"]
 classifiers = [
-	"License :: OSI Approved :: MIT License",
 	"Operating System :: OS Independent",
 	"Programming Language :: Python :: 3"
 ]
 readme = "README.md"
-license.file = "LICENSE"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [{ name = "heiwa4126", email = "heiwa4126@gmail.com" }]
 requires-python = ">=3.10"
 
@@ -24,7 +24,7 @@ Source = "https://github.com/heiwa4126/h4-hello"
 h4-hello = "h4_hello.__main__:main"
 
 [build-system]
-requires = ["uv_build>=0.9.12,<0.13.0"]
+requires = ["uv_build>=0.9.12,<0.14.0"]
 build-backend = "uv_build"
 
 [dependency-groups]
